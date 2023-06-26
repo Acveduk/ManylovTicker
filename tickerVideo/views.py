@@ -22,8 +22,9 @@ def index(request):
             screensize = (100, 100)
             img = ImageClip("img/background.jpg").set_duration(3)
             txt = TextClip(txt=request.GET.get('text'), color=request.GET.get('color'), font=request.GET.get('font'), fontsize=70).set_duration(3)
+            size = txt.size[0] if txt.size[0] >= 100 else 100
 
-            video = CompositeVideoClip([img, txt.set_pos(lambda t: (100 - t * (len(request.GET.get('text')) * 17.5), 'center'))],
+            video = CompositeVideoClip([img, txt.set_pos(lambda t: (0 - t * ((size-99)/3), 'center'))],
                                        size=screensize)
             video.write_videofile(f'video/{p.id}.mp4', fps=60, codec='mpeg4')
             p.link_to_video = f"video/{p.id}.mp4"
